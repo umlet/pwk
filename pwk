@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+
+import sys
+import io
+import os
+import tokenize
+
+
+
+
+def pwk2p(s):
+    ret = ""
+
+    lt = tokenize.tokenize(io.BytesIO(s.encode('utf-8')).readline)
+
+    indent = 0
+    open_brackets = 0
+
+    newline = False
+    indent_up = False
+    indent_down = False
+    skip = False
+
+    while True:
+        try:
+            t = next(lt)    #print(t)
+
+            if t.type == tokenize.ENCODING:
+                last_t = t
+                continue
+
+            if t.type == tokenize.OP and t.string == ";":
+                newline = True
+            elif t.type == tokenize.OP and t.string == ":":
+                if open_brackets == 0:
+                    newline = True
+                    indent_up = True
+
+            elif t.type == tokenize.OP and t.string == "{":
+                if last_t.type == tokenize.OP and last_t.string == ":":
+                    skip = True
+                else:
+                    open_brackets += 1
+            elif t.type == tokenize.OP and t.string == "}":
+                if open_brackets > 0:
+                    open_brackets -= 1
+                elif open_brackets == 0:
+                    if indent > 0:
+                        newline = True
+                        indent_down = True
+                        skip = True
+                    else:
+                        raise Epwk("ERROR: too many closing brackets")
+
+
+            if indent_up:
+                indent += 4
+            elif indent_down:
+                indent -= 4
+
+            if newline and indent_up:
+                ret += ":\n" + " "*indent
+            elif newline:
+                ret += "\n" + " "*indent
+            else:
+                if not skip:
+                    ret += t.string + " "
+            
+            newline = False
+            indent_up = False
+            indent_down = False
+            skip = False
+            last_t = t
+
+        except StopIteration:
+            break
+        except tokenize.TokenError:
+            continue
+
+    ret += "\n"
+
+    return ret
+
+
+
+
+def is_opt(s):  return s in ["-c", "-v", "-V", "-d"]
+def main(argv):
+    debug = False
+    keep_order = False
+    l_subarg = []
+    while len(argv) > 0:
+        arg = argv.pop(0)
+        if arg == "-c":
+            if len(argv) < 1:  raise Epwk("'-c' requires one argument: '<pwk-code>'")
+            v = argv.pop(0)
+            l_subarg.append( [arg, v] )
+        elif arg == "-v":
+            if len(argv) < 2:  raise Epwk("'-v' requires two arguments: <var-name> <value>")
+            k = argv.pop(0);  v = argv.pop(0)
+            l_subarg.append( [arg, k, v] )
+        elif arg == "-V":
+            if len(argv) < 1:  raise Epwk("'-V' requires at least one argument: <varlist-name> [<value1> <value2>..]")
+            k = argv.pop(0)
+            l_subarg.append( [arg, k] )
+            while len(argv) > 0:
+                if is_opt(argv[0]):  break
+                l_subarg[-1].append(argv.pop(0))
+        elif arg == "-d":
+            l_subarg.append( [arg] )
+            debug = True
+        else:
+            l_subarg.append( ["-c", arg] )
+
+    python_cmd_o = ""   # ordered
+    python_cmd_uc = ""  # unordered, commands
+    python_cmd_uv = ""  # unordered, variables
+    for subarg in l_subarg:
+        if subarg[0] == "-c":
+            python_cmd_o  += pwk2p(subarg[1])
+            python_cmd_uc += pwk2p(subarg[1])
+        elif subarg[0] == "-v":
+            python_cmd_o  += '%s = "%s"\n' % (subarg[1], subarg[2])
+            python_cmd_uv += '%s = "%s"\n' % (subarg[1], subarg[2])
+        elif subarg[0] == "-V":
+            python_cmd_o  += "%s = [%s]\n" % (subarg[1], ", ".join('"%s"' % x for x in subarg[2:]))
+            python_cmd_uv += "%s = [%s]\n" % (subarg[1], ", ".join('"%s"' % x for x in subarg[2:]))
+
+    python_cmd = python_cmd_o
+    if not keep_order:
+        python_cmd = python_cmd_uv + python_cmd_uc
+
+    if debug:
+        print(python_cmd)
+        return
+
+    exec(python_cmd)
+
+
+
+
+
+
+
+
+try:
+    # avoid broken pipe
+    from signal import signal, SIGPIPE, SIG_DFL
+    signal(SIGPIPE, SIG_DFL)
+except ImportError:
+    pass
+
+class Epwk(ValueError):  pass
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        msg = """
+pwk (Python With Kurly braces) provides one-liner support for Python via curly braces.
+
+It transforms (one-lined) Python code containing curly braces to standard Python and exec()-utes it;
+has variables and lists to integrate with bash; and can process stdin, a bit awk-ish.
+
+
+Basic usage:
+
+>pwk   [-c] <pwk-code>
+
+       [-v <var-name> <value>]                      # sets a Python variable or..
+       [-V <varlist-name> [<value1>, <value2>,..]]  #             ..variable list
+                                                    # (both can be used multiple times)
+
+       [-d]                                         # does not execute, but outputs the transformed code for debugging
+
+
+Examples:
+
+>pwk 'print("Brace yourself, World!")'
+Brace yourself, World!
+
+---
+>pwk 'if "braces"=="bad": { print("Be gone!"); exit(99) } else: { print("Howdy!") }'
+Howdy!
+
+>pwk 'if "braces"=="bad": { print("Be gone!"); exit(99) } else: { print("Howdy!") }'  -d
+if "braces" == "bad" :
+    print ( "Be gone!" )
+    exit ( 99 )
+else :
+    print ( "Howdy!" )
+
+---
+>pwk 'def s2i(s): { return int(s) } print(s2i("42"))'
+42
+
+>pwk 'import numpy as np; print(np.sin(3.14))'
+0.0015926529164868282
+# Note: modules sys, io, os, and tokenize are already available.
+
+---
+>ls / | pwk 'for s in sys.stdin: print(s.strip())'
+
+>ls / | pwk 'for s in sys.stdin: { try: { print(os.listdir("/"+s.strip())) } except: pass }'
+
+---
+>pwk 'print("%s, %s!" % (s1, s2))'  -v s1 Hello  -v s2 World
+Hello, World!
+
+>pwk 'print(ls1[0]+ls2[-1])'  -V ls1 En a b c  -V ls2 x y joy!
+Enjoy!
+
+"""
+        print(msg)
+        exit(2)
+
+    main(sys.argv[1:])
