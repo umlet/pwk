@@ -168,6 +168,13 @@ Dictionaries should work (except, for now, dicts with dicts as values, but so be
 
 <br/>
 
+### HISTORY
+
+* v0.1 -- 2020-11-22 -- Alpha release
+
+
+<br/>
+
 ### METHOD
 
 ``pwk`` is itself a Python3 tool. It reformats the given pwk-into into multi-line Python via using ``tokeinze``. It discards open braces that follow a ``:``, which indents and starts a block. The corresponding closing brace de-indents. Other braces (like in dictionaries) are (hopefully) left alone.
@@ -190,7 +197,7 @@ Methinks that the Python community abhors braces more than the vacuum. In fact, 
 
 **This is alpha code!**
 
-I cooked this up yesterday (2020-11-21), on WSL2, and would fully expect bugs. There are quite a few kinks I'd like to work on -- especially to give users earlier syntax errors (instead of passing invalid code to ``exec()``). Also, typed variables/variable lists are planned.
+I cooked this up yesterday (2020-11-21), on WSL2/Ubuntu, and would fully expect bugs (it *does* seem to run on macOS). There are quite a few kinks I'd like to work on -- especially to give users earlier syntax errors (instead of passing invalid code to ``exec()``). Also, typed variables/variable lists are planned.
 
 
 <br/>
