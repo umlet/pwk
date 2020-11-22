@@ -61,15 +61,15 @@ We can use the debug option ``-d`` to show the actual Python code the *would* be
 
 We can define and use our own functions:
 
-    $ pwk 'def s2i(s): { return int(s) } print(s2i("42"))'
+    $ pwk 'def s2i(s): { return int(s) } print(s2i("41")+1)'
     42
 
 as per
 
-    $ pwk 'def s2i(s): { return int(s) } print(s2i("42"))'  -d
+    $ pwk 'def s2i(s): { return int(s) } print(s2i("41")+1)'  -d
     def s2i ( s ) :
         return int ( s )
-    print ( s2i ( "42" ) )
+    print ( s2i ( "41" ) + 1 )
 
 Feel free to use imports (note: ``sys``, ``io``, ``os``, and ``tokenize`` already are):
 

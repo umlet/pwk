@@ -189,7 +189,7 @@ else :
     print ( "Howdy!" )
 
 ---
->pwk 'def s2i(s): { return int(s) } print(s2i("42"))'
+>pwk 'def s2i(s): { return int(s) } print(s2i("41")+1)'
 42
 
 >pwk 'import numpy as np; print(np.sin(3.14))'
