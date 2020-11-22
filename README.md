@@ -71,7 +71,7 @@ as per
         return int ( s )
     print ( s2i ( "41" ) + 1 )
 
-Feel free to use imports (note: ``sys``, ``io``, ``os``, and ``tokenize`` already are):
+Feel free to use imports (note: ``sys``, ``io``, ``os``, and ``tokenize`` are already imported and available):
 
     $ pwk 'import numpy as np; print(np.sin(3.14))'
     0.0015926529164868282
@@ -198,3 +198,11 @@ I cooked this up yesterday (2020-11-21), on WSL2, and would fully expect bugs. T
 ### FEEDBACK & BUG REPORTS
 
 Reach us at info@umlet.com.
+
+Enjoy!
+
+<br/>
+<br/>
+
+---
+*GPL3, Martin Auer, 2020, in lockdown*
