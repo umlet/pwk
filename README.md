@@ -6,12 +6,12 @@
 
 ## Motivation
 
-We love Python. We love them bash one-liners. We want do do one-liners with Python.
+We love Python. We love them bash one-liners. We want to do one-liners in Python.
 
 
-Now, this is already possible in many cases -- if we are able to avoid end-of-block logic:
+Now, this is already possible even in many non-trivial cases:
 
-* We can use, for example, the ternary operators (which feel somewhat stilted especially if nested), or list comprehensions. 
+* We can use, for example, the ternary operators (which however feel somewhat stilted especially if nested), or list comprehensions. 
 
 * Some contructs (``try``/``except``) require more hacky workarounds -- like controlling your own block indentation via some ``bash -c '..'`` wrapper.
 
@@ -100,7 +100,7 @@ We don't want to use bash variable replacement in our pwk-code string -- there a
 
     $ pwk -v my_variable $USER  'print(my_variable)'
 
-(Of course, use double quotes around environment variables with spaces.)
+(Of course, use double quotes around environment variables containing spaces.)
 
 You can use multiple variables. And the position of variable declarations doesn't matter -- you can also write:
 
@@ -177,18 +177,18 @@ Dictionaries should work (except, for now, dicts with dicts as values, but so be
 
 ### METHOD
 
-``pwk`` is itself a Python3 tool. It reformats the given pwk-into into multi-line Python via using ``tokeinze``. It discards open braces that follow a ``:``, which indents and starts a block. The corresponding closing brace de-indents. Other braces (like in dictionaries) are (hopefully) left alone.
+``pwk`` is itself a Python3 tool. It reformats the given pwk-line into into multi-line Python using ``tokeinze``. It discards open braces that follow a ``:``, which indents and starts a block. The corresponding closing brace de-indents. Other braces (like in dictionaries) are (hopefully) left alone.
 
 
 <br/>
 
 ### THOUGHTS
 
-Actually, I would really like to have the option to surround blocks with braces right in basic Python (though I am not on the edge of my seat waiting for that to happen).
+Actually, I would really like to have the option to surround blocks with braces right in basic Python. I am, though, not on the edge of my seat waiting for that to happen.
 
-The reason is quite prosaic: in business code, for example, heavy with assert-like checks and early exits/exceptions, I'd like to compress this "subordinate" code portion into as little horizontal space to get it out of way and mind.
+My main reason is fairly prosaic: in business code, for example, heavy with assert-like checks and early exits/exceptions, I'd like to compress this "subordinate" code portion into as little horizontal space to get it out of way and mind.
 
-Methinks that the Python community abhors braces more than the vacuum. In fact, we'd only need a "close block" identifier -- possibly the ``°``-character? I find braces more elegant. (I love Python, as stated at the beginning, but I also love C, in my view as elegant as can be.)
+Methinks that the Python community abhors braces more than the vacuum. In fact, we'd only need a "close block" identifier -- possibly the ``°``-character? I find braces more elegant. While I love Python, as stated at the beginning, I also love C, in my view as elegant as can be.
 
 
 <br/>
