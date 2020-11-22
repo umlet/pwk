@@ -13,7 +13,7 @@ Now, this is already possible in many cases -- if we are able to avoid end-of-bl
 
 * We can use, for example, the ternary operators (which feel somewhat stilted especially if nested), or list comprehensions. 
 
-* Some contructs (``try``/``except``) require mory hacky workarounds -- like controlling your own block indentation via some ``bash -c '..'`` wrapper.
+* Some contructs (``try``/``except``) require more hacky workarounds -- like controlling your own block indentation via some ``bash -c '..'`` wrapper.
 
 All of this reqires us to rewrite code snippets, and at least a modicum of mental effort we wanted to avoid with one-liners in the first place. 
 
