@@ -184,9 +184,9 @@ Dictionaries should work (except, for now, dicts with dicts as values, but so be
 
 ### THOUGHTS
 
-Actually, I would really like to have the option to surround blocks with braces right in basic Python. I am, though, not on the edge of my seat waiting for that to happen.
+Actually, I would really like to have the option to surround blocks with braces right in basic Python. I am, though, not on the edge of my seat waiting for that to happen (see also: ``from __future__ import braces``; [*thx, user OJFord*]).
 
-My main reason is fairly prosaic: in business code, for example, heavy with assert-like checks and early exits/exceptions, I'd like to compress this "subordinate" code portion into as little horizontal space to get it out of way and mind.
+My main reason is fairly prosaic: in business code, for example, heavy with assert-like checks and early exits/exceptions, I'd like to compress this "subordinate" code portion into as little horizontal space as possible in order to get it out of way and mind.
 
 Methinks that the Python community abhors braces more than the vacuum. In fact, we'd only need a "close block" identifier -- possibly the ``°``-character? I find braces more elegant. While I love Python, as stated at the beginning, I also love C, in my view as elegant as can be.
 
