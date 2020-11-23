@@ -45,7 +45,7 @@ Let's look at the above example again:
     $ pwk 'if "braces"=="bad": { print("Be gone!"); exit(99) } else: { print("Howdy!") }'
     Howdy!
 
-We can use the debug option ``-d`` to show the actual Python code the *would* be executed:
+We can use the debug option ``-d`` to show the actual Python code that *would* be executed:
 
     $ pwk 'if "braces"=="bad": { print("Be gone!"); exit(99) } else: { print("Howdy!") }'  -d
     if "braces" == "bad" :
