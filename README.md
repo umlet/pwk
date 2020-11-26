@@ -13,9 +13,9 @@ Now, this is already possible even in many non-trivial cases:
 
 * We can use, for example, the ternary operators (which however feel somewhat stilted especially if nested), or list comprehensions. 
 
-* Some contructs (``try``/``except``) require more hacky workarounds -- like controlling your own block indentation via some ``bash -c '..'`` wrapper.
+* Some constructs (``try``/``except``) require more hacky workarounds -- like controlling your own block indentation via some ``bash -c '..'`` wrapper.
 
-All of this reqires us to rewrite code snippets, and at least a modicum of mental effort we wanted to avoid with one-liners in the first place. 
+All of this requires us to rewrite code snippets, and at least a modicum of mental effort we wanted to avoid with one-liners in the first place. 
 
 ``pwk`` allows to denote blocks in Python one-liners with kurly, née curly, braces. It generates corresponding multi-line Python with proper indentation on the fly and ``exec()``-utes the resulting code. You can thus write one-liners in pwk/Python like this:
 
