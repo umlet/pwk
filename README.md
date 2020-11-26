@@ -81,7 +81,7 @@ Feel free to use imports (note: ``sys``, ``io``, ``os``, and ``tokenize`` are al
 
 ### STANDARD INPUT & EXCEPTIONS
 
-We can use ``pwk`` in an ``awk``-like way. Here, we list all subfolders in the root directory, and ignore exceptions on files not being directories:
+We can use ``pwk`` in an ``awk``-like way. Here, we list the content of all subfolders in the root directory, and ignore the exceptions ``listdir()`` raises if fed a file instead of a directory:
 
     $ ls / | pwk 'for s in sys.stdin: { try: { print(os.listdir("/"+s.strip())) } except: pass }'
 
