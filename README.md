@@ -197,7 +197,7 @@ Methinks that the Python community abhors braces more than the vacuum. In fact, 
 
 **This is alpha code!**
 
-I cooked this up yesterday (2020-11-21), on WSL2/Ubuntu, and would fully expect bugs (it *does* seem to run on macOS). There are quite a few kinks I'd like to work on -- especially to give users earlier syntax errors (instead of passing invalid code to ``exec()``). Also, typed variables/variable lists are planned.
+I cooked this up yesterday (2020-11-21), on WSL2/Ubuntu, and would fully expect bugs (it *does* seem to run on macOS). There are quite a few kinks I'd like to work on -- especially to give users earlier syntax errors (instead of passing invalid code to ``exec()``). Also, typed variables/variable lists are planned. (Later, once stable, ``pwk`` hopefully finds its way to some package repos..)
 
 
 <br/>
