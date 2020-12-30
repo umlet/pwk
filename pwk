@@ -190,19 +190,18 @@ def main(pwk_code, variables, list_variables, debug):
         sys.exit(1)
 
 
-try:
-    # avoid broken pipe
-    from signal import signal, SIGPIPE, SIG_DFL
-
-    signal(SIGPIPE, SIG_DFL)
-except ImportError:
-    pass
-
-
 class Epwk(ValueError):
     pass
 
 
 if __name__ == "__main__":
+    try:
+        # avoid broken pipe
+        from signal import signal, SIGPIPE, SIG_DFL
+
+        signal(SIGPIPE, SIG_DFL)
+    except ImportError:
+        pass
+
     args = argparse()
     main(args.pwk_code, args.variables, args.list_variables, args.debug)
