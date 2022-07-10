@@ -212,4 +212,4 @@ Enjoy!
 <br/>
 
 ---
-*GPL3, Martin Auer, 2020, in lockdown*
+*GPL3, Martin Auer, 2020-*
